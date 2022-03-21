@@ -1,10 +1,13 @@
 const mongoose = require("mongoose");
+// const mongooseSlugPlugin = require("mongoose-slug-plugin");
 
-const UserScheema = new mongoose.Schema({
-  username: {
-    type: String,
-    required: "username missing",
-    unique: "username is taken",
-  },
-  password: { type: String, required: "password missing" },
+const UserSchema = new mongoose.Schema({
+  username: { type: String, required: true },
+  password: { type: String, required: true },
+  phone: { type: Number, required: true },
+  hosted: [{ type: mongoose.Schema.Types.ObjectId, ref: "Gathering" }],
+  invitations: [{ type: mongoose.Schema.Types.ObjectId, ref: "Gathering" }],
+  accepted: [{ type: mongoose.Schema.Types.ObjectId, ref: "Gathering" }],
 });
+
+module.exports = mongoose.model("User", UserSchema);

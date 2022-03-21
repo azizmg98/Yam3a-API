@@ -1,7 +1,21 @@
+const user = require("../../models/User");
+const bcrypt = require("bcrypt");
+const jwt = require("jsonwebtoken");
 
+exports.signin = (req, res, next) => {
+  try {
+    const newUser = req.user;
 
-exports.signup = async () => {}
+    const payLoad = {
+      _id: newUser._id,
+      username: newUser.username,
+      exp: Date.now() + +process.env.EXPTIMER, //2hr
+    };
 
-exports.signin = async () => {}
+    const token = jwt.sign(JSON.stringify(payLoad), process.env.SECRET_KEY);
 
-exports.getUsers = async () => {}
+    res.status(201).json({ token });
+  } catch (error) {
+    next(error);
+  }
+};

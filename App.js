@@ -1,6 +1,10 @@
 const express = require("express");
 const connectDB = require("./DB");
-require(dotenv).config;
+const dotenv = require("dotenv");
+const cors = require("cors");
+const userRoutes = require("./api/users/userRoutes");
+const path = require("path");
+dotenv.config();
 
 app = express();
 connectDB;
@@ -21,6 +25,10 @@ app.use((req, res, next) => {
 });
 
 // routes
+
+// routes
+
+app.use("/api/user", userRoutes);
 
 // image path
 app.use("/media", express.static(path.join(__dirname, "media")));
