@@ -8,7 +8,6 @@ const cors = require("cors");
 const path = require("path");
 const userRoutes = require("./api/users/userRoutes");
 
-
 app = express();
 connectDB();
 
@@ -30,11 +29,6 @@ app.use((req, res, next) => {
 // routes
 app.use("/api/users", userRoutes);
 
-
-// routes
-
-app.use("/api/user", userRoutes);
-
 // image path
 app.use("/media", express.static(path.join(__dirname, "media")));
 console.log("__dirname", __dirname);
@@ -45,7 +39,6 @@ app.use((err, req, res, next) => {
     message: err.message || "Internal Server Error",
   });
 });
-
 
 app.listen(PORT, () => {
   console.log(`Listening to port ${PORT}`);

@@ -1,5 +1,5 @@
 const express = require("express");
-const { signin } = require("./userControllers");
+const { signin, signup } = require("./userControllers");
 const passport = require("passport");
 const upload = require("../../middleware/multer");
 
@@ -24,6 +24,5 @@ router.post(
 );
 
 router.post("/signup", signup);
-
 
 module.exports = router;
