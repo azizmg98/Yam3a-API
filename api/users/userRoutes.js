@@ -1,7 +1,7 @@
 const express = require("express");
 const { signin, signup } = require("./userControllers");
 const passport = require("passport");
-const upload = require("../../middleware/multer");
+// const upload = require("../../middleware/multer");
 
 const router = express.Router();
 
