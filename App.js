@@ -6,7 +6,9 @@ dotenv.config();
 
 const cors = require("cors");
 const path = require("path");
+
 const mainRouter = require("./api/mainRouter");
+
 
 app = express();
 connectDB();
@@ -27,7 +29,9 @@ app.use((req, res, next) => {
 });
 
 // routes
+
 app.use("/api", mainRouter);
+
 
 // image path
 app.use("/media", express.static(path.join(__dirname, "media")));

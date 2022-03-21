@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 // const mongooseSlugPlugin = require("mongoose-slug-plugin");
 
 const UserSchema = new mongoose.Schema({
-  username: { type: String, required: true },
+  username: { type: String, required: true, unique: "Username is taken" },
   password: { type: String, required: true },
   phone: { type: Number, required: true },
   hosted: [{ type: mongoose.Schema.Types.ObjectId, ref: "Gathering" }],
@@ -12,4 +12,3 @@ const UserSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("User", UserSchema);
-
