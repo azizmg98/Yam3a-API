@@ -1,10 +1,8 @@
-
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
 const secret = process.env.JWT_SECRET;
 const exp = process.env.JWT_EXPIRATION;
-
 
 exports.signin = (req, res, next) => {
   try {
@@ -16,14 +14,13 @@ exports.signin = (req, res, next) => {
       exp: Date.now() + +process.env.EXPTIMER, //2hr
     };
 
-    const token = jwt.sign(JSON.stringify(payLoad), process.env.SECRET_KEY);
+    const token = jwt.sign(JSON.stringify(payLoad), process.env.JWT_SECRET);
 
     res.status(201).json({ token });
   } catch (error) {
     next(error);
   }
 };
-
 
 exports.signup = async (req, res, next) => {
   try {
@@ -43,6 +40,4 @@ exports.signup = async (req, res, next) => {
   }
 };
 
-
 exports.getUsers = async () => {};
-
