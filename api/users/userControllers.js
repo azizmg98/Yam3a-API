@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
 const secret = process.env.JWT_SECRET;
-const exp = process.env.JWT_EXPIRATION;
+const exp = +process.env.JWT_EXPIRATION;
 
 exports.signup = async (req, res, next) => {
   try {
@@ -25,14 +25,13 @@ exports.signup = async (req, res, next) => {
 exports.signin = (req, res, next) => {
   try {
     const newUser = req.user;
-
     const payLoad = {
       _id: newUser._id,
       username: newUser.username,
-      exp: Date.now() + +process.env.EXPTIMER, //2hr
+      exp: Date.now() + exp, //2hr
     };
 
-    const token = jwt.sign(JSON.stringify(payLoad), process.env.JWT_SECRET);
+    const token = jwt.sign(JSON.stringify(payLoad), secret);
 
     res.status(201).json({ token });
   } catch (error) {
@@ -51,11 +50,20 @@ exports.getUsers = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   try {
-    const userId = req.params.userId;
-    const deletedUser = await User.findByIdAndDelete(userId);
-    return res.json(deletedUser);
+    // const { userId } = req.params;
+    // const deletedUser = await User.findById(userId);
+    return res.json(req.user);
   } catch (error) {
     next(error);
   }
 };
 
+exports.editProfile = async (req, res, next) => {
+  try {
+    // const userId = req.params.userId;
+    // const deletedUser = await User.findByIdAndDelete(userId);
+    // return res.json(deletedUser);
+  } catch (error) {
+    next(error);
+  }
+};

@@ -26,11 +26,12 @@ exports.jwtStrategy = new JWTStrategy(
   },
   async (jwtPayload, done) => {
     if (Date.now() > jwtPayload.exp) {
-      done(null, false);
+      return done(null, false);
     }
     try {
       const user = await User.findById(jwtPayload._id);
-      user ? done(null, user) : done(null, false);
+      if (user) return done(null, user);
+      return done(null, false);
     } catch (error) {
       done(error);
     }
