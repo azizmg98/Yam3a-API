@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+
 // const mongooseSlugPlugin = require("mongoose-slug-plugin");
 
 const UserSchema = new mongoose.Schema({
@@ -11,3 +12,4 @@ const UserSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model("User", UserSchema);
+
