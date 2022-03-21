@@ -32,7 +32,7 @@ exports.signin = (req, res, next) => {
       exp: Date.now() + +process.env.EXPTIMER, //2hr
     };
 
-    const token = jwt.sign(JSON.stringify(payLoad), process.env.SECRET_KEY);
+    const token = jwt.sign(JSON.stringify(payLoad), process.env.JWT_SECRET);
 
     res.status(201).json({ token });
   } catch (error) {
@@ -58,3 +58,4 @@ exports.deleteUser = async (req, res, next) => {
     next(error);
   }
 };
+

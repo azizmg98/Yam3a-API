@@ -22,7 +22,7 @@ exports.localStrategy = new LocalStrategy(async (username, password, done) => {
 exports.jwtStrategy = new JWTStrategy(
   {
     jwtFromRequest: fromAuthHeaderAsBearerToken(),
-    secretOrKey: process.env.SECRET_KEY,
+    secretOrKey: process.env.JWT_SECRET,
   },
   async (jwtPayload, done) => {
     if (Date.now() > jwtPayload.exp) {
