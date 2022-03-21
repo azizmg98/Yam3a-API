@@ -1,12 +1,12 @@
 const express = require("express");
-const { signin, signup } = require("./userControllers");
+const { signin, signup, getUsers, deleteUser } = require("./userControllers");
 const passport = require("passport");
 // const upload = require("../../middleware/multer");
 
 const router = express.Router();
 
 router.param("userId", async (req, res, next, userId) => {
-  const user = await fetchUser(userId, next);
+  const user = await getUsers(userId, next);
   if (user) {
     req.user = user;
     next();
@@ -24,5 +24,9 @@ router.post(
 );
 
 router.post("/signup", signup);
+
+router.get("/", getUsers);
+
+router.delete("/:userId", deleteUser);
 
 module.exports = router;

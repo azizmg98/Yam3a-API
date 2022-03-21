@@ -8,6 +8,7 @@ const GatheringSchema = new mongoose.Schema({
   host: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
   date: { type: String },
   time: { type: String },
+  image: { type: String },
   guests: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
   location: { type: mongoose.Schema.Types.ObjectId, ref: "Location" },
   items: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
