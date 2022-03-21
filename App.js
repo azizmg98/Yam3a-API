@@ -6,7 +6,7 @@ dotenv.config();
 
 const cors = require("cors");
 const path = require("path");
-const userRoutes = require("./api/users/userRoutes");
+const mainRouter = require("./api/mainRouter");
 
 app = express();
 connectDB();
@@ -27,12 +27,7 @@ app.use((req, res, next) => {
 });
 
 // routes
-app.use("/api/users", userRoutes);
-
-
-// routes
-
-app.use("/api/user", userRoutes);
+app.use("/api", mainRouter);
 
 // image path
 app.use("/media", express.static(path.join(__dirname, "media")));
@@ -44,7 +39,6 @@ app.use((err, req, res, next) => {
     message: err.message || "Internal Server Error",
   });
 });
-
 
 app.listen(PORT, () => {
   console.log(`Listening to port ${PORT}`);
