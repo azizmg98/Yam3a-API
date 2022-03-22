@@ -10,6 +10,7 @@ const UserSchema = new mongoose.Schema({
   hosted: [{ type: mongoose.Schema.Types.ObjectId, ref: "Gathering" }],
   invitations: [{ type: mongoose.Schema.Types.ObjectId, ref: "Gathering" }],
   accepted: [{ type: mongoose.Schema.Types.ObjectId, ref: "Gathering" }],
+  locations: [{ type: mongoose.Schema.Types.ObjectId, ref: "Location" }],
 });
 
 module.exports = mongoose.model("User", UserSchema);
