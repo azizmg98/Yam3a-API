@@ -6,6 +6,7 @@ const {
   deleteUser,
   editProfile,
   getUser,
+  fetchSingleUser,
 } = require("./userControllers");
 const passport = require("passport");
 const upload = require("../../middleware/multer");
@@ -26,5 +27,6 @@ router.put(
   upload.single("image"),
   editProfile
 );
+router.get("/:userId", fetchSingleUser);
 
 module.exports = router;

@@ -41,10 +41,20 @@ exports.signin = (req, res, next) => {
 
 exports.getUsers = async (req, res, next) => {
   try {
-    const users = await User.find();
+    const users = await User.find().populate("locations");
     return res.json(users);
   } catch (error) {
     // next(error);
+  }
+};
+
+exports.fetchSingleUser = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const user = await User.findById(userId).populate("locations");
+    return res.json(user);
+  } catch (error) {
+    next(error);
   }
 };
 

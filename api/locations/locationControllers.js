@@ -12,6 +12,7 @@ exports.fetchLocations = async (req, res, next) => {
 exports.createLocation = async (req, res, next) => {
   try {
     req.body.user = req.user._id;
+    req.body.coordinates = "1234567890";
     const newLocation = await Location.create(req.body);
     return res.status(201).json(newLocation);
   } catch (error) {
