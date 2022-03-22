@@ -3,7 +3,7 @@ const mongoose = require("mongoose");
 // const mongooseSlugPlugin = require("mongoose-slug-plugin");
 
 const UserSchema = new mongoose.Schema({
-  username: { type: String, required: true, unique: "Username is taken" },
+  username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
   phone: { type: Number, required: true },
   image: { type: String },

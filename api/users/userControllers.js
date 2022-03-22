@@ -58,6 +58,7 @@ exports.deleteUser = async (req, res, next) => {
   }
 };
 
+
 exports.editProfile = async (req, res, next) => {
   try {
     // const userId = req.params.userId;
@@ -67,3 +68,4 @@ exports.editProfile = async (req, res, next) => {
     next(error);
   }
 };
+
