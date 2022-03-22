@@ -25,7 +25,6 @@ exports.signup = async (req, res, next) => {
 exports.signin = (req, res, next) => {
   try {
     const newUser = req.user;
-
     const payLoad = {
       _id: newUser._id,
       username: newUser.username,
@@ -51,10 +50,22 @@ exports.getUsers = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   try {
-    const userId = req.params.userId;
-    const deletedUser = await User.findByIdAndDelete(userId);
-    return res.json(deletedUser);
+    // const { userId } = req.params;
+    // const deletedUser = await User.findById(userId);
+    return res.json(req.user);
   } catch (error) {
     next(error);
   }
 };
+
+
+exports.editProfile = async (req, res, next) => {
+  try {
+    // const userId = req.params.userId;
+    // const deletedUser = await User.findByIdAndDelete(userId);
+    // return res.json(deletedUser);
+  } catch (error) {
+    next(error);
+  }
+};
+
