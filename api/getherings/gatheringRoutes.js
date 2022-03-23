@@ -16,22 +16,22 @@ const router = express.Router();
 // fetch all gatherings
 router.get("/", fetchGatherings);
 
-// fetch single gatherings
-router.get("/:gatheringId", fetchSingleGathering);
-
 // fetch host gatherings using req.user
 router.get(
-  "/host",
+  "/:hostId",
   passport.authenticate("jwt", { session: false }),
   fetchHostGathering
 );
 
 // fetch guest gatherings using req.user
 router.get(
-  "/host",
+  "/guest",
   passport.authenticate("jwt", { session: false }),
   fetchHostGathering
 );
+
+// fetch single gatherings
+router.get("/:gatheringId", fetchSingleGathering);
 
 // create a gathering
 router.post(

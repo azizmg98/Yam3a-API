@@ -28,8 +28,16 @@ exports.fetchSingleGathering = async (req, res, next) => {
 
 exports.fetchHostGathering = async (req, res, next) => {
   try {
-    if (req.body.host === req.user._id) {
+    if (!req.user._id.equals(req.body.host)) {
+      const err = new Error("Unauthorized");
+      err.status = 401;
+      next(err);
     }
+    const gatherings = await Gathering.find()
+      .populate("location")
+      .populate("guests")
+      .populate("items");
+    return res.json(gatherings);
   } catch (error) {
     next(error);
   }
