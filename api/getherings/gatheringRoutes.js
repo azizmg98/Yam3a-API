@@ -6,6 +6,8 @@ const {
   updateGathering,
   deleteGathering,
   fetchSingleGathering,
+  fetchGuestGathering,
+  fetchHostGathering,
 } = require("./gatheringControllers");
 const upload = require("../../middleware/multer");
 
@@ -16,6 +18,20 @@ router.get("/", fetchGatherings);
 
 // fetch single gatherings
 router.get("/:gatheringId", fetchSingleGathering);
+
+// fetch host gatherings using req.user
+router.get(
+  "/host",
+  passport.authenticate("jwt", { session: false }),
+  fetchHostGathering
+);
+
+// fetch guest gatherings using req.user
+router.get(
+  "/host",
+  passport.authenticate("jwt", { session: false }),
+  fetchHostGathering
+);
 
 // create a gathering
 router.post(

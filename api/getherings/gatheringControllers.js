@@ -26,6 +26,21 @@ exports.fetchSingleGathering = async (req, res, next) => {
   }
 };
 
+exports.fetchHostGathering = async (req, res, next) => {
+  try {
+    if (req.body.host === req.user._id) {
+    }
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.fetchGuestGathering = async (req, res, next) => {
+  try {
+  } catch (error) {
+    next(error);
+  }
+};
 exports.createGathering = async (req, res, next) => {
   try {
     req.body.host = req.user._id;
