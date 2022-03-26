@@ -18,20 +18,20 @@ router.get("/", fetchGatherings);
 
 // fetch host gatherings using req.user
 router.get(
-  "/:hostId",
+  "/host/",
   passport.authenticate("jwt", { session: false }),
   fetchHostGathering
 );
 
 // fetch guest gatherings using req.user
 router.get(
-  "/guest",
-  passport.authenticate("jwt", { session: false }),
+  "/guest/:userId",
+  // passport.authenticate("jwt", { session: false }),
   fetchHostGathering
 );
 
 // fetch single gatherings
-router.get("/:gatheringId", fetchSingleGathering);
+router.get("all/:gatheringId", fetchSingleGathering);
 
 // create a gathering
 router.post(
