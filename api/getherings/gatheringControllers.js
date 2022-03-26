@@ -36,7 +36,10 @@ exports.fetchHostGathering = async (req, res, next) => {
       err.status = 401;
       next(err);
     }
-    const gatherings = await Gathering.find({ host: userId });
+    const gatherings = await Gathering.find({ host: userId })
+      .populate("location")
+      .populate("items")
+      .populate("guests");
     return res.json(gatherings);
   } catch (error) {
     next(error);
