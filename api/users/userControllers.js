@@ -45,15 +45,13 @@ exports.getUsers = async (req, res, next) => {
   try {
     const users = await User.find().populate("hosted").populate("locations");
     return res.json(users);
-  } catch (error) {
-    // next(error);
-  }
+  } catch (error) {}
 };
 
 exports.fetchSingleUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const user = await User.findById(userId).populate("locations");
+    const user = await User.findById(userId);
     return res.json(user);
   } catch (error) {
     next(error);

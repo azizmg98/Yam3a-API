@@ -87,3 +87,28 @@ exports.deleteGathering = async (req, res, next) => {
     next(error);
   }
 };
+
+// exports.addGuestsToGathering = async (req, res, next) => {
+//   try {
+//     const {gatheringId} = req.params;
+//  const addGuests = await Gathering.aggregate
+
+//   } catch (error) {}
+// };
+
+exports.fetchUserGatherings = async (req, res, next) => {
+  // const gatherings = [];
+  try {
+    const { userId } = req.params;
+    const foundGatherings = Gathering.filter(
+      (gathering) => +gathering.host._id === +userId
+    );
+    console.log(foundGatherings);
+    return res.json(foundGatherings);
+    // if (foundGatherings) {
+    //   return res.status(204).end();
+    // } else {
+    //   return res.status(404).json({ message: "Product not found" });
+    // }
+  } catch (error) {}
+};
