@@ -1,5 +1,4 @@
 const Gathering = require("../../models/Gathering");
-const Location = require("../../models/Location");
 
 exports.fetchGatherings = async (req, res, next) => {
   try {
@@ -25,7 +24,6 @@ exports.fetchSingleGathering = async (req, res, next) => {
     next(error);
   }
 };
-
 
 // // ? I think populating the users hosted and searching there would be better
 // // will try in fetchGuestGathering
@@ -75,7 +73,6 @@ exports.fetchSingleGathering = async (req, res, next) => {
 //     next(error);
 //   }
 // };
-
 
 exports.updateGathering = async (req, res, next) => {
   try {

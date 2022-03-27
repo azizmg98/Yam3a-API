@@ -9,6 +9,7 @@ const {
   getUser,
   fetchSingleUser,
   createGathering,
+  createLocation,
 } = require("./userControllers");
 const passport = require("passport");
 const upload = require("../../middleware/multer");
@@ -38,5 +39,11 @@ router.post(
   passport.authenticate("jwt", { session: false }),
   upload.single("image"),
   createGathering
+);
+
+router.post(
+  "/:userId/location",
+  passport.authenticate("jwt", { session: false }),
+  createLocation
 );
 module.exports = router;

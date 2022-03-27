@@ -13,13 +13,6 @@ const router = express.Router();
 // fetch all locations
 router.get("/", fetchLocations);
 
-// create a location
-router.post(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  createLocation
-);
-
 // update a location
 router.put(
   "/",
