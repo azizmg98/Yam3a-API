@@ -1,6 +1,7 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
+const Gathering = require("../../models/Gathering");
 const secret = process.env.JWT_SECRET;
 const exp = +process.env.JWT_EXPIRATION;
 
@@ -41,7 +42,7 @@ exports.signin = (req, res, next) => {
 
 exports.getUsers = async (req, res, next) => {
   try {
-    const users = await User.find().populate("locations");
+    const users = await User.find().populate("hosted");
     return res.json(users);
   } catch (error) {
     // next(error);
@@ -68,7 +69,6 @@ exports.deleteUser = async (req, res, next) => {
   }
 };
 
-
 exports.editProfile = async (req, res, next) => {
   try {
     // const userId = req.params.userId;
@@ -78,4 +78,52 @@ exports.editProfile = async (req, res, next) => {
     next(error);
   }
 };
+exports.updateUser = async (req, res, next) => {
+  try {
+    if (req.file) {
+      req.body.image = `/${req.file.path}`;
+      req.body.image = req.body.image.replace("\\", "/");
+    }
+    const user = await User.findByIdAndUpdate(
+      { _id: req.user.id },
+      req.body,
+      { new: true, runValidators: true } // returns the updated product
+    );
+    res.status(204).end();
+  } catch (err) {
+    next(error);
+  }
+};
+// exports.createGathering = async (req, res, next) => {
+//   try {
+//     req.body.host = req.user._id;
 
+//     if (req.file) {
+//       req.body.image = `/${req.file.path}`;
+//       req.body.image = req.body.image.replace("\\", "/");
+//     }
+//     const newGathering = await Gathering.create(req.body)
+//       .populate("location")
+//       .populate("guests")
+//       .populate("items");
+
+//     return res.status(201).json(newGathering);
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+exports.createGathering = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    // adding id from params to product body
+    req.body.user = userId;
+    const newGathering = await Gathering.create(req.body);
+    // push new product to shop
+    await User.findByIdAndUpdate(userId, {
+      $push: { hosted: newGathering._id },
+    });
+    return res.status(201).json(newGathering);
+  } catch (error) {
+    next(error);
+  }
+};
