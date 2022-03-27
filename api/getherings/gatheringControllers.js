@@ -27,23 +27,23 @@ exports.fetchSingleGathering = async (req, res, next) => {
 
 // // ? I think populating the users hosted and searching there would be better
 // // will try in fetchGuestGathering
-// exports.fetchHostGathering = async (req, res, next) => {
-//   try {
-//     userId = req.user._id;
-//     if (userId === req.body.host) {
-//       const err = new Error("Unauthorized");
-//       err.status = 401;
-//       next(err);
-//     }
-//     const gatherings = await Gathering.find({ host: userId })
-//       .populate("location")
-//       .populate("items")
-//       .populate("guests");
-//     return res.json(gatherings);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
+exports.fetchHostGathering = async (req, res, next) => {
+  try {
+    userId = req.user._id;
+    if (userId === req.body.host) {
+      const err = new Error("Unauthorized");
+      err.status = 401;
+      next(err);
+    }
+    const gatherings = await Gathering.find({ host: userId })
+      .populate("location")
+      .populate("items")
+      .populate("guests");
+    return res.json(gatherings);
+  } catch (error) {
+    next(error);
+  }
+};
 
 // exports.fetchGuestGathering = async (req, res, next) => {
 //   try {
@@ -59,6 +59,7 @@ exports.fetchSingleGathering = async (req, res, next) => {
 //     next(error);
 //   }
 // };
+
 // exports.createGathering = async (req, res, next) => {
 //   try {
 //     req.body.host = req.user._id;

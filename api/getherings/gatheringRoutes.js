@@ -18,11 +18,11 @@ const router = express.Router();
 router.get("/", fetchGatherings);
 
 // fetch host gatherings using req.user
-// router.get(
-//   "/host/",
-//   passport.authenticate("jwt", { session: false }),
-//   fetchHostGathering
-// );
+router.get(
+  "/host/",
+  passport.authenticate("jwt", { session: false }),
+  fetchHostGathering
+);
 
 // fetch guest gatherings using req.user
 // router.get(
