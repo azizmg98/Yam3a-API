@@ -3,10 +3,8 @@ const {
   signin,
   signup,
   getUsers,
-  deleteUser,
-  editProfile,
-  getUser,
   fetchSingleUser,
+  editProfile,
 } = require("./userControllers");
 const passport = require("passport");
 const upload = require("../../middleware/multer");
