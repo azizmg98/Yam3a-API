@@ -2,7 +2,7 @@ const express = require("express");
 const passport = require("passport");
 const {
   fetchGatherings,
-  createGathering,
+
   updateGathering,
   deleteGathering,
   fetchSingleGathering,
@@ -16,14 +16,6 @@ router.get("/", fetchGatherings);
 
 // fetch single gatherings
 router.get("/:gatheringId", fetchSingleGathering);
-
-// create a gathering
-router.post(
-  "/",
-  passport.authenticate("jwt", { session: false }),
-  upload.single("image"),
-  createGathering
-);
 
 // update a gathering
 router.put(

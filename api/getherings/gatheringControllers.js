@@ -26,25 +26,6 @@ exports.fetchSingleGathering = async (req, res, next) => {
   }
 };
 
-exports.createGathering = async (req, res, next) => {
-  try {
-    req.body.host = req.user._id;
-
-    if (req.file) {
-      req.body.image = `/${req.file.path}`;
-      req.body.image = req.body.image.replace("\\", "/");
-    }
-    const newGathering = await Gathering.create(req.body)
-      .populate("location")
-      .populate("guests")
-      .populate("items");
-
-    return res.status(201).json(newGathering);
-  } catch (error) {
-    next(error);
-  }
-};
-
 exports.updateGathering = async (req, res, next) => {
   try {
   } catch (error) {
