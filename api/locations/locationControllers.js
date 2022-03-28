@@ -22,3 +22,14 @@ exports.deleteLocation = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getUserLocation = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    const locations = await Location.find({ user: userId });
+    console.log(locations);
+    return res.json(locations);
+  } catch (error) {
+    next(error);
+  }
+};

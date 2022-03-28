@@ -5,6 +5,7 @@ const {
   createLocation,
   updateLocation,
   deleteLocation,
+  getUserLocation,
 } = require("./locationControllers");
 const upload = require("../../middleware/multer");
 
@@ -19,6 +20,12 @@ router.put(
   passport.authenticate("local", { session: false }),
   upload.single("image"),
   updateLocation
+);
+
+router.get(
+  "/user/",
+  passport.authenticate("jwt", { session: false }),
+  getUserLocation
 );
 
 // delete a location
