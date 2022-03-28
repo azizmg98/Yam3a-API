@@ -29,7 +29,8 @@ exports.fetchSingleGathering = async (req, res, next) => {
 // // will try in fetchGuestGathering
 exports.fetchHostGathering = async (req, res, next) => {
   try {
-    userId = req.user._id;
+    const userId = req.user._id;
+    //? how is it not giving an error
     if (userId === req.body.host) {
       const err = new Error("Unauthorized");
       err.status = 401;
