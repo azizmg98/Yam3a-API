@@ -7,6 +7,7 @@ const {
   fetchSingleUser,
   createGathering,
   createLocation,
+  editProfile,
 } = require("./userControllers");
 const passport = require("passport");
 const upload = require("../../middleware/multer");
