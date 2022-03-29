@@ -98,18 +98,10 @@ exports.deleteGathering = async (req, res, next) => {
 // };
 
 exports.fetchUserGatherings = async (req, res, next) => {
-  // const gatherings = [];
   try {
     const { userId } = req.params;
-    const foundGatherings = Gathering.filter(
-      (gathering) => +gathering.host._id === +userId
-    );
-    console.log(foundGatherings);
-    return res.json(foundGatherings);
-    // if (foundGatherings) {
-    //   return res.status(204).end();
-    // } else {
-    //   return res.status(404).json({ message: "Product not found" });
-    // }
+    const gatherings = await Gathering.find({ user: userId });
+    console.log(gatherings);
+    return res.json(gatherings);
   } catch (error) {}
 };

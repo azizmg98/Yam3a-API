@@ -47,7 +47,7 @@ router.put(
 router.delete("/:gatheringId", deleteGathering);
 
 // fetch user gatherings
-router.post(":userId", fetchUserGatherings);
+router.get("/:userId", fetchUserGatherings);
 
 // export gathering router
 module.exports = router;

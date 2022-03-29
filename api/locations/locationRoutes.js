@@ -6,6 +6,7 @@ const {
   updateLocation,
   deleteLocation,
   getUserLocation,
+  getHostLocations,
 } = require("./locationControllers");
 const upload = require("../../middleware/multer");
 
@@ -30,6 +31,9 @@ router.get(
 
 // delete a location
 router.delete("/:locationId", deleteLocation);
+
+// fetch Host Locations:
+router.get("/:userId", getHostLocations);
 
 // export location router
 
