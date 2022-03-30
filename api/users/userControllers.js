@@ -102,18 +102,22 @@ exports.updateUser = async (req, res, next) => {
 exports.createGathering = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    // adding id from params to gathering body
     req.body.host = userId;
+    if (req.file) {
+      req.body.image = `/${req.file.path}`;
+      req.body.image = req.body.image.replace("\\", "/");
+    }
     const newGathering = await Gathering.create(req.body);
-    // push new gathering to user
     await User.findByIdAndUpdate(userId, {
       $push: { hosted: newGathering._id },
     });
+    console.log(newGathering);
     return res.status(201).json(newGathering);
   } catch (error) {
     next(error);
   }
 };
+
 // create a location
 
 exports.createLocation = async (req, res, next) => {
@@ -130,8 +134,23 @@ exports.createLocation = async (req, res, next) => {
   }
 };
 
-exports.createGuest = async (req, res, next) => {
+exports.updateProfileImage = async (req, res, next) => {
+  console.log("inside update profile image");
+  console.log(req.file);
   try {
+    if (req.file) {
+      req.body.image = `/${req.file.path}`;
+      req.body.image = req.body.image.replace("\\", "/");
+    }
+    const { userId } = req.params;
+    const user = await User.findByIdAndUpdate(
+      { _id: userId },
+      { image: req.body.image },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json(user);
   } catch (error) {
     next(error);
   }
