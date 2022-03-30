@@ -12,7 +12,11 @@ const GatheringSchema = new mongoose.Schema(
     time: { type: String },
     image: { type: String },
     guests: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
-    location: { type: mongoose.Schema.Types.ObjectId, ref: "Location" },
+    location: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Location",
+      default: null,
+    },
     items: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
   },
   { timestamps: true }

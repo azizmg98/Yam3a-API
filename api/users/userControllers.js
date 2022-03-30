@@ -93,56 +93,75 @@ exports.updateUser = async (req, res, next) => {
     next(error);
   }
 };
+// this is create gathering without image (it works)
 // exports.createGathering = async (req, res, next) => {
 //   try {
-//     req.body.host = req.user._id;
-
-//     if (req.file) {
-//       req.body.image = `/${req.file.path}`;
-//       req.body.image = req.body.image.replace("\\", "/");
-//     }
-//     const newGathering = await Gathering.create(req.body)
-//       .populate("location")
-//       .populate("guests")
-//       .populate("items");
-
+//     const { userId } = req.params;
+//     // adding id from params to gathering body
+//     req.body.host = userId;
+//     const newGathering = await Gathering.create(req.body);
+//     // push new gathering to user
+//     await User.findByIdAndUpdate(userId, {
+//       $push: { hosted: newGathering._id },
+//     });
 //     return res.status(201).json(newGathering);
 //   } catch (error) {
 //     next(error);
 //   }
 // };
+
 exports.createGathering = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    // adding id from params to gathering body
     req.body.host = userId;
+    if (req.file) {
+      req.body.image = `/${req.file.path}`;
+      req.body.image = req.body.image.replace("\\", "/");
+    }
     const newGathering = await Gathering.create(req.body);
-    // push new gathering to user
     await User.findByIdAndUpdate(userId, {
       $push: { hosted: newGathering._id },
     });
+    console.log(newGathering);
     return res.status(201).json(newGathering);
   } catch (error) {
     next(error);
   }
 };
+
 // create a location
 
 exports.createLocation = async (req, res, next) => {
   try {
-    // const { gatheringId } = req.params;
     const { userId } = req.params;
-    // req.body.gathering = gatheringId;
-
     req.body.user = userId;
-    // req.body.user = req.user._id;
-    // req.body.coordinates = coordinates;
     const newLocation = await Location.create(req.body);
     await User.findByIdAndUpdate(userId, {
       $push: { locations: newLocation._id },
     });
-
     return res.status(201).json(newLocation);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.updateProfileImage = async (req, res, next) => {
+  console.log("inside update profile image");
+  console.log(req.file);
+  try {
+    if (req.file) {
+      req.body.image = `/${req.file.path}`;
+      req.body.image = req.body.image.replace("\\", "/");
+    }
+    const { userId } = req.params;
+    const user = await User.findByIdAndUpdate(
+      { _id: userId },
+      { image: req.body.image },
+      {
+        new: true,
+      }
+    );
+    res.status(200).json(user);
   } catch (error) {
     next(error);
   }
