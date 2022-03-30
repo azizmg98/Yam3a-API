@@ -57,14 +57,15 @@ exports.deleteGathering = async (req, res, next) => {
 // add guest to gathering. guest create when signing up
 exports.addGuest = async (req, res, next) => {
   try {
+    console.log("addGuest function called");
     //? create guest with sign up
     const gatheringId = req.body.gatherings;
     const userId = req.body.user;
 
     // todo add validation. don't duplicate guests
     // * find guest by user and push gathering id
-    const guest = await Guest.findOneAndUpdate(
-      { user: userId },
+    const guest = await Guest.findByIdAndUpdate(
+      userId,
       {
         $push: { gatherings: gatheringId },
       },
@@ -79,8 +80,18 @@ exports.addGuest = async (req, res, next) => {
       { new: true }
     );
 
+    console.log(guest);
     return res.status(201).json(guest);
   } catch (error) {
     next(error);
   }
+
+  exports.fetchUserGatherings = async (req, res, next) => {
+    try {
+      const { userId } = req.params;
+      const gatherings = await Gathering.find({ user: userId });
+      console.log(gatherings);
+      return res.json(gatherings);
+    } catch (error) {}
+  };
 };
