@@ -7,11 +7,10 @@ const GatheringSchema = new mongoose.Schema(
       required: true,
     },
     host: { type: mongoose.Schema.Types.ObjectId, ref: "User" },
-    // use datatype date instead of string
     date: { type: String },
     time: { type: String },
     image: { type: String },
-    guests: [{ type: mongoose.Schema.Types.ObjectId, ref: "User" }],
+    guests: [{ type: mongoose.Schema.Types.ObjectId, ref: "Guest" }],
     location: { type: mongoose.Schema.Types.ObjectId, ref: "Location" },
     items: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
   },
