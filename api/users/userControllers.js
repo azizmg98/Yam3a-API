@@ -5,6 +5,7 @@ const Gathering = require("../../models/Gathering");
 const secret = process.env.JWT_SECRET;
 const exp = +process.env.JWT_EXPIRATION;
 const Location = require("../../models/Location");
+const Guest = require("../../models/Guest");
 
 exports.signup = async (req, res, next) => {
   try {
@@ -18,6 +19,10 @@ exports.signup = async (req, res, next) => {
       exp: Date.now() + exp,
     };
     const token = jwt.sign(JSON.stringify(payload), secret);
+
+    // create guest
+    await Guest.create({ user: newUser._id });
+
     return res.status(201).json({ token });
   } catch (error) {
     next(error);
@@ -93,22 +98,6 @@ exports.updateUser = async (req, res, next) => {
     next(error);
   }
 };
-// this is create gathering without image (it works)
-// exports.createGathering = async (req, res, next) => {
-//   try {
-//     const { userId } = req.params;
-//     // adding id from params to gathering body
-//     req.body.host = userId;
-//     const newGathering = await Gathering.create(req.body);
-//     // push new gathering to user
-//     await User.findByIdAndUpdate(userId, {
-//       $push: { hosted: newGathering._id },
-//     });
-//     return res.status(201).json(newGathering);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 
 exports.createGathering = async (req, res, next) => {
   try {

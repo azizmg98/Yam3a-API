@@ -38,7 +38,6 @@ exports.getHostLocations = async (req, res, next) => {
   try {
     const { userId } = req.params;
     const locations = await Location.find({ user: userId });
-    console.log(locations);
     return res.json(locations);
   } catch (error) {}
 };
