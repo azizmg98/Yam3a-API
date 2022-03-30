@@ -1,4 +1,7 @@
 const Gathering = require("../../models/Gathering");
+const Guest = require("../../models/Guest");
+
+const { ObjectId } = require("mongodb");
 
 exports.fetchGatherings = async (req, res, next) => {
   try {
@@ -25,56 +28,17 @@ exports.fetchSingleGathering = async (req, res, next) => {
   }
 };
 
-// // ? I think populating the users hosted and searching there would be better
-// // will try in fetchGuestGathering
 exports.fetchHostGathering = async (req, res, next) => {
   try {
     const userId = req.user._id;
-    //? how is it not giving an error
-    if (userId === req.body.host) {
-      const err = new Error("Unauthorized");
-      err.status = 401;
-      next(err);
-    }
-    const gatherings = await Gathering.find({ host: userId })
-      .populate("location")
-      .populate("items")
-      .populate("guests");
+    const gatherings = await Gathering.find({ host: userId }).populate(
+      "guests"
+    );
     return res.json(gatherings);
   } catch (error) {
     next(error);
   }
 };
-
-// exports.fetchGuestGathering = async (req, res, next) => {
-//   try {
-//     const { userId } = req.params;
-//     // if (!userId === req.body.host) {
-//     //   const err = new Error("Unauthorized");
-//     //   err.status = 401;
-//     //   next(err);
-//     // }
-//     const gatherings = await Gathering.find({ guests: userId });
-//     return res.json(gatherings);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
-
-// exports.createGathering = async (req, res, next) => {
-//   try {
-//     req.body.host = req.user._id;
-
-//     if (req.file) {
-//       req.body.image = `/${req.file.path}`;
-//       req.body.image = req.body.image.replace("\\", "/");
-//     }
-//     const newGathering = await Gathering.create(req.body);
-//     return res.status(201).json(newGathering);
-//   } catch (error) {
-//     next(error);
-//   }
-// };
 
 exports.updateGathering = async (req, res, next) => {
   try {
@@ -82,6 +46,7 @@ exports.updateGathering = async (req, res, next) => {
     next(error);
   }
 };
+
 exports.deleteGathering = async (req, res, next) => {
   try {
   } catch (error) {
@@ -89,19 +54,44 @@ exports.deleteGathering = async (req, res, next) => {
   }
 };
 
-// exports.addGuestsToGathering = async (req, res, next) => {
-//   try {
-//     const {gatheringId} = req.params;
-//  const addGuests = await Gathering.aggregate
-
-//   } catch (error) {}
-// };
-
-exports.fetchUserGatherings = async (req, res, next) => {
+// add guest to gathering. guest create when signing up
+exports.addGuest = async (req, res, next) => {
   try {
-    const { userId } = req.params;
-    const gatherings = await Gathering.find({ user: userId });
-    console.log(gatherings);
-    return res.json(gatherings);
-  } catch (error) {}
+    console.log("addGuest function called");
+    //? create guest with sign up
+    const gatheringId = req.body.gatherings;
+    const userId = req.body.user;
+
+    // todo add validation. don't duplicate guests
+    // * find guest by user and push gathering id
+    const guest = await Guest.findByIdAndUpdate(
+      userId,
+      {
+        $push: { gatherings: gatheringId },
+      },
+      { new: true }
+    );
+    // * find gathering and push guest
+    await Gathering.findByIdAndUpdate(
+      gatheringId,
+      {
+        $push: { guests: guest._id },
+      },
+      { new: true }
+    );
+
+    console.log(guest);
+    return res.status(201).json(guest);
+  } catch (error) {
+    next(error);
+  }
+
+  exports.fetchUserGatherings = async (req, res, next) => {
+    try {
+      const { userId } = req.params;
+      const gatherings = await Gathering.find({ user: userId });
+      console.log(gatherings);
+      return res.json(gatherings);
+    } catch (error) {}
+  };
 };
