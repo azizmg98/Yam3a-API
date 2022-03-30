@@ -80,7 +80,6 @@ exports.addGuest = async (req, res, next) => {
       { new: true }
     );
 
-    console.log(guest);
     return res.status(201).json(guest);
   } catch (error) {
     next(error);
