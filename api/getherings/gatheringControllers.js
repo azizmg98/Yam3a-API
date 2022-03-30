@@ -28,12 +28,16 @@ exports.fetchSingleGathering = async (req, res, next) => {
   }
 };
 
+// Aziz controller
 exports.fetchHostGathering = async (req, res, next) => {
   try {
     const userId = req.user._id;
-    const gatherings = await Gathering.find({ host: userId }).populate(
-      "guests"
-    );
+    const gatherings = await Gathering.find({ host: userId }).populate({
+      path: "guests",
+      populate: {
+        path: "user",
+      },
+    });
     return res.json(gatherings);
   } catch (error) {
     next(error);
@@ -85,6 +89,7 @@ exports.addGuest = async (req, res, next) => {
     next(error);
   }
 
+  // Aisha controller
   exports.fetchUserGatherings = async (req, res, next) => {
     try {
       const { userId } = req.params;
