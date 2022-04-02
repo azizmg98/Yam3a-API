@@ -23,15 +23,7 @@ router.post(
 router.post("/signup", signup);
 router.get("/", getUsers);
 
-// router.put(
-//   "/:userId",
-//   passport.authenticate("jwt", { session: false }),
-//   upload.single("image"),
-//   editProfile
-// );
-
 router.get("/:userId", fetchSingleUser);
-// router.put("/:userId", upload.single("image"), updateUser);
 
 // create a gathering
 router.post(
@@ -41,6 +33,7 @@ router.post(
   createGathering
 );
 
+// create a location
 router.post(
   "/:userId/location",
   passport.authenticate("jwt", { session: false }),
