@@ -1,8 +1,6 @@
 const Gathering = require("../../models/Gathering");
 const Guest = require("../../models/Guest");
 
-const { ObjectId } = require("mongodb");
-
 exports.fetchGatherings = async (req, res, next) => {
   try {
     const gatherings = await Gathering.find()
@@ -15,20 +13,6 @@ exports.fetchGatherings = async (req, res, next) => {
   }
 };
 
-exports.fetchSingleGathering = async (req, res, next) => {
-  try {
-    const { gatheringId } = req.params;
-    const gathering = await Gathering.findById(gatheringId)
-      .populate("location")
-      .populate("guests")
-      .populate("items");
-    return res.json(gathering);
-  } catch (error) {
-    next(error);
-  }
-};
-
-// Aziz controller
 exports.fetchHostGathering = async (req, res, next) => {
   try {
     const userId = req.user._id;
@@ -44,24 +28,9 @@ exports.fetchHostGathering = async (req, res, next) => {
   }
 };
 
-exports.updateGathering = async (req, res, next) => {
-  try {
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.deleteGathering = async (req, res, next) => {
-  try {
-  } catch (error) {
-    next(error);
-  }
-};
-
-// add guest to gathering. guest create when signing up
+// add guest to gathering. guest created when signing up
 exports.addGuest = async (req, res, next) => {
   try {
-    console.log("addGuest function called");
     //? create guest with sign up
     const gatheringId = req.body.gatherings;
     const userId = req.body.user;
@@ -71,7 +40,7 @@ exports.addGuest = async (req, res, next) => {
     const guest = await Guest.findByIdAndUpdate(
       userId,
       {
-        $push: { gatherings: gatheringId },
+        $push: { gathering: gatheringId },
       },
       { new: true }
     );
@@ -88,14 +57,4 @@ exports.addGuest = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-
-  // Aisha controller
-  exports.fetchUserGatherings = async (req, res, next) => {
-    try {
-      const { userId } = req.params;
-      const gatherings = await Gathering.find({ user: userId });
-      console.log(gatherings);
-      return res.json(gatherings);
-    } catch (error) {}
-  };
 };

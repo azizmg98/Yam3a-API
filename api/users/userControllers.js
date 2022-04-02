@@ -48,7 +48,7 @@ exports.signin = (req, res, next) => {
 
 exports.getUsers = async (req, res, next) => {
   try {
-    const users = await User.find().populate("hosted").populate("locations");
+    const users = await User.find()
     return res.json(users);
   } catch (error) {}
 };
@@ -73,15 +73,6 @@ exports.deleteUser = async (req, res, next) => {
   }
 };
 
-exports.editProfile = async (req, res, next) => {
-  try {
-    // const userId = req.params.userId;
-    // const deletedUser = await User.findByIdAndDelete(userId);
-    // return res.json(deletedUser);
-  } catch (error) {
-    next(error);
-  }
-};
 exports.updateUser = async (req, res, next) => {
   try {
     if (req.file) {
@@ -111,7 +102,6 @@ exports.createGathering = async (req, res, next) => {
     await User.findByIdAndUpdate(userId, {
       $push: { hosted: newGathering._id },
     });
-    console.log(newGathering);
     return res.status(201).json(newGathering);
   } catch (error) {
     next(error);
@@ -135,8 +125,6 @@ exports.createLocation = async (req, res, next) => {
 };
 
 exports.updateProfileImage = async (req, res, next) => {
-  console.log("inside update profile image");
-  console.log(req.file);
   try {
     if (req.file) {
       req.body.image = `/${req.file.path}`;
