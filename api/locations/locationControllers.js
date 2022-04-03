@@ -9,19 +9,6 @@ exports.fetchLocations = async (req, res, next) => {
   }
 };
 
-exports.updateLocation = async (req, res, next) => {
-  try {
-  } catch (error) {
-    next(error);
-  }
-};
-exports.deleteLocation = async (req, res, next) => {
-  try {
-  } catch (error) {
-    next(error);
-  }
-};
-
 exports.getHostLocations = async (req, res, next) => {
   try {
     const { userId } = req.params;

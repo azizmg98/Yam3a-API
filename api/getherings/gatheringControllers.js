@@ -6,7 +6,6 @@ exports.fetchGatherings = async (req, res, next) => {
     const gatherings = await Gathering.find()
       .populate("location")
       .populate("guests")
-      .populate("items");
     return res.json(gatherings);
   } catch (error) {
     next(error);

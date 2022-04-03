@@ -63,16 +63,6 @@ exports.fetchSingleUser = async (req, res, next) => {
   }
 };
 
-exports.deleteUser = async (req, res, next) => {
-  try {
-    // const { userId } = req.params;
-    // const deletedUser = await User.findById(userId);
-    return res.json(req.user);
-  } catch (error) {
-    next(error);
-  }
-};
-
 exports.updateUser = async (req, res, next) => {
   try {
     if (req.file) {
@@ -109,7 +99,6 @@ exports.createGathering = async (req, res, next) => {
 };
 
 // create a location
-
 exports.createLocation = async (req, res, next) => {
   try {
     const { userId } = req.params;
