@@ -1,13 +1,10 @@
 const express = require("express");
 const {
-  updateUser,
   signin,
   signup,
   getUsers,
-  fetchSingleUser,
   createGathering,
   createLocation,
-  editProfile,
   updateProfileImage,
 } = require("./userControllers");
 const passport = require("passport");
@@ -23,7 +20,6 @@ router.post(
 router.post("/signup", signup);
 router.get("/", getUsers);
 
-router.get("/:userId", fetchSingleUser);
 
 // create a gathering
 router.post(

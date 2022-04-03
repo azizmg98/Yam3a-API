@@ -16,7 +16,6 @@ const GatheringSchema = new mongoose.Schema(
       ref: "Location",
       default: null,
     },
-    items: [{ type: mongoose.Schema.Types.ObjectId, ref: "Item" }],
   },
   { timestamps: true }
 );
