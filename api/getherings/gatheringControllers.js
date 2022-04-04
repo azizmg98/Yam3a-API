@@ -1,5 +1,6 @@
 const Gathering = require("../../models/Gathering");
 const Guest = require("../../models/Guest");
+const User = require('../../models/User')
 
 exports.fetchGatherings = async (req, res, next) => {
   try {
