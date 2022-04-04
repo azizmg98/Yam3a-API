@@ -3,6 +3,7 @@ const passport = require("passport");
 const {
   fetchLocations,
   getHostLocations,
+  createLocation
 } = require("./locationControllers");
 const upload = require("../../middleware/multer");
 
@@ -14,6 +15,12 @@ router.get("/", fetchLocations);
 // fetch Host Locations:
 router.get("/:userId", getHostLocations);
 
-// export location router
+// create a location
+router.post(
+  "/:userId/location",
+  passport.authenticate("jwt", { session: false }),
+  createLocation
+);
 
+// export location router
 module.exports = router;

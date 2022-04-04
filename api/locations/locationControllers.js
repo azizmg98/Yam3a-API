@@ -16,3 +16,18 @@ exports.getHostLocations = async (req, res, next) => {
     return res.json(locations);
   } catch (error) {}
 };
+
+// create a location
+exports.createLocation = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    req.body.user = userId;
+    const newLocation = await Location.create(req.body);
+    await User.findByIdAndUpdate(userId, {
+      $push: { locations: newLocation._id },
+    });
+    return res.status(201).json(newLocation);
+  } catch (error) {
+    next(error);
+  }
+};

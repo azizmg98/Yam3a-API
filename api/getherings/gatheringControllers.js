@@ -27,6 +27,24 @@ exports.fetchHostGathering = async (req, res, next) => {
   }
 };
 
+exports.createGathering = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    req.body.host = userId;
+    if (req.file) {
+      req.body.image = `/${req.file.path}`;
+      req.body.image = req.body.image.replace("\\", "/");
+    }
+    const newGathering = await Gathering.create(req.body);
+    await User.findByIdAndUpdate(userId, {
+      $push: { hosted: newGathering._id },
+    });
+    return res.status(201).json(newGathering);
+  } catch (error) {
+    next(error);
+  }
+};
+
 // add guest to gathering. guest created when signing up
 exports.addGuest = async (req, res, next) => {
   try {
