@@ -1,10 +1,8 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../../models/User");
-const Gathering = require("../../models/Gathering");
 const secret = process.env.JWT_SECRET;
 const exp = +process.env.JWT_EXPIRATION;
-const Location = require("../../models/Location");
 const Guest = require("../../models/Guest");
 
 exports.signup = async (req, res, next) => {
@@ -51,66 +49,6 @@ exports.getUsers = async (req, res, next) => {
     const users = await User.find()
     return res.json(users);
   } catch (error) {}
-};
-
-exports.fetchSingleUser = async (req, res, next) => {
-  try {
-    const { userId } = req.params;
-    const user = await User.findById(userId);
-    return res.json(user);
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.updateUser = async (req, res, next) => {
-  try {
-    if (req.file) {
-      req.body.image = `/${req.file.path}`;
-      req.body.image = req.body.image.replace("\\", "/");
-    }
-    const user = await User.findByIdAndUpdate(
-      { _id: req.user.id },
-      req.body,
-      { new: true, runValidators: true } // returns the updated product
-    );
-    res.status(204).end();
-  } catch (err) {
-    next(error);
-  }
-};
-
-exports.createGathering = async (req, res, next) => {
-  try {
-    const { userId } = req.params;
-    req.body.host = userId;
-    if (req.file) {
-      req.body.image = `/${req.file.path}`;
-      req.body.image = req.body.image.replace("\\", "/");
-    }
-    const newGathering = await Gathering.create(req.body);
-    await User.findByIdAndUpdate(userId, {
-      $push: { hosted: newGathering._id },
-    });
-    return res.status(201).json(newGathering);
-  } catch (error) {
-    next(error);
-  }
-};
-
-// create a location
-exports.createLocation = async (req, res, next) => {
-  try {
-    const { userId } = req.params;
-    req.body.user = userId;
-    const newLocation = await Location.create(req.body);
-    await User.findByIdAndUpdate(userId, {
-      $push: { locations: newLocation._id },
-    });
-    return res.status(201).json(newLocation);
-  } catch (error) {
-    next(error);
-  }
 };
 
 exports.updateProfileImage = async (req, res, next) => {

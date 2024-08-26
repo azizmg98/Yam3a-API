@@ -1,5 +1,6 @@
 const Gathering = require("../../models/Gathering");
 const Guest = require("../../models/Guest");
+const User = require('../../models/User')
 
 exports.fetchGatherings = async (req, res, next) => {
   try {
@@ -20,8 +21,26 @@ exports.fetchHostGathering = async (req, res, next) => {
       populate: {
         path: "user",
       },
-    });
+    }).populate('location');
     return res.json(gatherings);
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.createGathering = async (req, res, next) => {
+  try {
+    const userId = req.user._id;
+    req.body.host = userId;
+    if (req.file) {
+      req.body.image = `/${req.file.path}`;
+      req.body.image = req.body.image.replace("\\", "/");
+    }
+    const newGathering = await Gathering.create(req.body);
+    await User.findByIdAndUpdate(userId, {
+      $push: { hosted: newGathering._id },
+    });
+    return res.status(201).json(newGathering);
   } catch (error) {
     next(error);
   }
