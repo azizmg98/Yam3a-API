@@ -7,7 +7,8 @@ const DATABASE = process.env.DATABASE;
 
 const connectDB = async () => {
   const conn = await mongoose.connect(
-    `mongodb+srv://AzizMG:${PASSWORD}@cluster0.esh0o.mongodb.net/${DATABASE}?retryWrites=true&w=majority`,
+    `mongodb+srv://AzizMG:${PASSWORD}@cluster0.untteev.mongodb.net/${DATABASE}?retryWrites=true&w=majority&appName=Cluster0`,
+    // `mongodb+srv://AzizMG:${PASSWORD}@cluster0.esh0o.mongodb.net/${DATABASE}?retryWrites=true&w=majority`,
     {
       useUnifiedTopology: true,
       useNewUrlParser: true,

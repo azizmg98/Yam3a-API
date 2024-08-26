@@ -21,7 +21,7 @@ exports.fetchHostGathering = async (req, res, next) => {
       populate: {
         path: "user",
       },
-    });
+    }).populate('location');
     return res.json(gatherings);
   } catch (error) {
     next(error);
